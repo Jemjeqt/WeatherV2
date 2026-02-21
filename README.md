@@ -1,97 +1,97 @@
-# 🌦️ WeatherV2 — Real-Time Weather Dashboard
+# 🌦️ WeatherV2 — Dashboard Cuaca Real-Time
 
-A beautiful, feature-rich weather dashboard built with **vanilla HTML, CSS & JavaScript**. No frameworks, no build tools — just clean, modular code.
+Dashboard cuaca modern yang dibangun dengan **HTML, CSS & JavaScript murni**. Tanpa framework, tanpa build tools — cukup buka di browser.
 
-![Dark Theme](https://img.shields.io/badge/Theme-Dark%20Mode-0a0a1a?style=flat-square)
+![Dark Theme](https://img.shields.io/badge/Tema-Dark%20Mode-0a0a1a?style=flat-square)
 ![Vanilla JS](https://img.shields.io/badge/JS-Vanilla-f7df1e?style=flat-square&logo=javascript&logoColor=000)
 ![OpenWeather API](https://img.shields.io/badge/API-OpenWeather-e96e4f?style=flat-square)
 
-## ✨ Features
+## ✨ Fitur
 
-| Feature | Description |
+| Fitur | Deskripsi |
 |---|---|
-| 🔍 **City Search** | Search any city worldwide with debounced auto-search |
-| 📍 **Geolocation** | One-click detect your current location |
-| ⏰ **Hourly Forecast** | Next 24 hours (8 slots × 3h intervals) |
-| 📅 **5-Day Forecast** | Daily forecast with hi/lo temps |
-| 🌫️ **Air Quality Index** | PM2.5, PM10, NO₂, O₃, CO breakdown with color-coded badges |
-| 🌅 **Sunrise / Sunset** | Timezone-accurate for searched city |
-| 🔄 **Auto Refresh** | Live countdown, refreshes every 10 minutes |
-| 🌡️ **°C / °F Toggle** | Client-side conversion, no re-fetch needed |
-| 📜 **Search History** | Last 8 searches saved in localStorage |
-| 🎨 **Dynamic Backgrounds** | Weather-reactive themes (see below) |
+| 🔍 **Cari Kota** | Cari kota manapun di dunia dengan auto-search (debounce) |
+| 📍 **Lokasi Otomatis** | Deteksi lokasi saat ini dengan satu klik |
+| ⏰ **Ramalan Per Jam** | 24 jam ke depan (8 slot × interval 3 jam) |
+| 📅 **Ramalan 5 Hari** | Ramalan harian dengan suhu tertinggi/terendah |
+| 🌫️ **Indeks Kualitas Udara** | PM2.5, PM10, NO₂, O₃, CO dengan badge berwarna |
+| 🌅 **Sunrise / Sunset** | Akurat sesuai timezone kota yang dicari |
+| 🔄 **Refresh Otomatis** | Hitung mundur, auto-refresh setiap 10 menit |
+| 🌡️ **Toggle °C / °F** | Konversi langsung tanpa fetch ulang |
+| 📜 **Riwayat Pencarian** | 8 pencarian terakhir tersimpan di localStorage |
+| 🎨 **Background Dinamis** | Tema berubah sesuai cuaca (lihat tabel bawah) |
 
-## 🎨 Dynamic Weather Backgrounds
+## 🎨 Background Cuaca Dinamis
 
-The entire background changes based on current weather conditions:
+Background berubah otomatis berdasarkan kondisi cuaca:
 
-| Weather | Effect |
+| Cuaca | Efek |
 |---|---|
-| ☀️ Clear | Deep blue gradient with golden orb |
-| ☁️ Clouds | Dark grey-purple atmosphere |
-| 🌧️ Rain | Near-black + animated rain drops |
-| ❄️ Snow | Cool blue-grey + floating snowflakes |
-| ⛈️ Thunderstorm | Dark + rain + lightning flash |
-| 🌫️ Mist/Fog | Muted purple + drifting mist layers |
+| ☀️ Cerah | Gradien biru dengan orb keemasan |
+| ☁️ Berawan | Atmosfer abu-abu gelap keunguan |
+| 🌧️ Hujan | Gelap + animasi tetesan hujan |
+| ❄️ Salju | Biru keabu + butiran salju melayang |
+| ⛈️ Badai | Gelap + hujan + kilat menyala |
+| 🌫️ Kabut | Ungu redup + lapisan kabut bergerak |
 
-## 🛠️ Tech Stack
+## 🛠️ Teknologi
 
-- **HTML5** — Semantic markup with accessibility
-- **CSS3** — Custom properties, glassmorphism, CSS animations
-- **JavaScript (ES6+)** — `async/await`, state machine pattern, modular architecture
-- **OpenWeather API** — Current Weather, 5-Day Forecast, Air Pollution (all free tier)
-- **Google Fonts** — Inter typeface
+- **HTML5** — Struktur semantik
+- **CSS3** — Custom properties, glassmorphism, animasi CSS
+- **JavaScript (ES6+)** — `async/await`, state machine, arsitektur modular
+- **OpenWeather API** — Current Weather, 5-Day Forecast, Air Pollution (gratis)
+- **Google Fonts** — Typeface Inter
 
-## 📁 Project Structure
+## 📁 Struktur Proyek
 
 ```
 WeatherV2/
-├── index.html      # Main HTML structure
-├── style.css       # Premium dark theme + weather animations
-├── app.js          # Core logic, API calls, state management
-├── vercel.json     # Vercel deployment config
-├── netlify.toml    # Netlify deployment config
-└── README.md       # This file
+├── index.html      # Struktur HTML utama
+├── style.css       # Tema gelap premium + animasi cuaca
+├── app.js          # Logika utama, API calls, state management
+├── vercel.json     # Konfigurasi deploy Vercel
+├── netlify.toml    # Konfigurasi deploy Netlify
+└── README.md       # File ini
 ```
 
-## 🚀 Quick Start
+## 🚀 Cara Pakai
 
-1. **Clone the repo**
+1. **Clone repo**
    ```bash
    git clone https://github.com/Jemjeqt/WeatherV2.git
    cd WeatherV2
    ```
 
-2. **Get an API key** from [OpenWeather](https://openweathermap.org/api) (free)
+2. **Daftar API key** di [OpenWeather](https://openweathermap.org/api) (gratis)
 
-3. **Add your API key** in `app.js` line 7:
+3. **Masukkan API key** di `app.js` baris 7:
    ```javascript
-   const API_KEY = 'YOUR_API_KEY_HERE';
+   const API_KEY = 'API_KEY_KAMU_DISINI';
    ```
 
-4. **Open `index.html`** in your browser — done!
+4. **Buka `index.html`** di browser — selesai!
 
 ## 🌐 Deployment
 
-Deployed on **Vercel**: [weatherhub-dashboard.vercel.app](https://weatherhub-dashboard.vercel.app)
+Sudah di-deploy di **Vercel**: [weatherhub-dashboard.vercel.app](https://weatherhub-dashboard.vercel.app)
 
-Deploy your own:
+Deploy sendiri:
 ```bash
 npx vercel deploy --prod
 ```
 
-Or drag & drop the folder to [Netlify](https://app.netlify.com).
+Atau drag & drop folder ke [Netlify](https://app.netlify.com).
 
-## 📝 API Endpoints Used
+## 📝 API Endpoint yang Dipakai
 
-| Endpoint | Purpose |
+| Endpoint | Kegunaan |
 |---|---|
-| `/data/2.5/weather` | Current weather (temp, humidity, wind, sunrise/sunset) |
-| `/data/2.5/forecast` | 5-day / 3-hour forecast (hourly + daily) |
-| `/data/2.5/air_pollution` | Air quality index + pollutant components |
+| `/data/2.5/weather` | Cuaca saat ini (suhu, kelembaban, angin, sunrise/sunset) |
+| `/data/2.5/forecast` | Ramalan 5 hari / 3 jam (per jam + harian) |
+| `/data/2.5/air_pollution` | Indeks kualitas udara + komponen polutan |
 
-All endpoints use the same free API key.
+Semua endpoint pakai API key gratis yang sama.
 
-## 📄 License
+## 📄 Lisensi
 
-MIT — free for personal and commercial use.
+MIT — bebas digunakan untuk keperluan pribadi maupun komersial.
