@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+    content="Real-time weather dashboard powered by OpenWeather API. Search any city for current temperature, humidity, wind speed, and more.">
+  <title>Weather Dashboard — Real-Time Forecast</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body data-weather="default">
+
+  <!-- Dynamic weather particles -->
+  <div class="weather-bg" id="weatherBg">
+    <div class="weather-bg__gradient"></div>
+    <div class="weather-bg__particles" id="particles"></div>
+  </div>
+
+  <!-- Background orbs -->
+  <div class="bg-orb bg-orb--1"></div>
+  <div class="bg-orb bg-orb--2"></div>
+
+  <div class="app-container">
+
+    <!-- Header -->
+    <header class="header">
+      <div class="header__brand">
+        <svg class="header__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z" />
+        </svg>
+        <h1 class="header__title">Weather<span class="header__title--accent">Hub</span></h1>
+      </div>
+      <p class="header__tagline">Real-time weather data, beautifully presented.</p>
+    </header>
+
+    <!-- Search -->
+    <form class="search" id="searchForm" autocomplete="off">
+      <div class="search__input-wrap">
+        <svg class="search__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8" />
+          <path d="m21 21-4.3-4.3" />
+        </svg>
+        <input type="text" class="search__input" id="cityInput" placeholder="Search city... e.g. Jakarta, Tokyo, London"
+          aria-label="City name">
+      </div>
+      <button type="submit" class="search__btn" id="searchBtn">
+        <span class="search__btn-text">Search</span>
+        <div class="search__btn-spinner" hidden></div>
+        <svg class="search__btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12h14" />
+          <path d="m12 5 7 7-7 7" />
+        </svg>
+      </button>
+    </form>
+
+    <!-- Geolocation -->
+    <button class="geo-btn" id="geoBtn" type="button">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+        stroke-linejoin="round">
+        <circle cx="12" cy="12" r="3" />
+        <path d="M12 2v4" />
+        <path d="M12 18v4" />
+        <path d="M2 12h4" />
+        <path d="M18 12h4" />
+      </svg>
+      <span>Use My Location</span>
+    </button>
+
+    <!-- Unit toggle -->
+    <div class="unit-toggle" id="unitToggle">
+      <button class="unit-toggle__btn unit-toggle__btn--active" data-unit="C" type="button">°C</button>
+      <button class="unit-toggle__btn" data-unit="F" type="button">°F</button>
+      <div class="unit-toggle__slider"></div>
+    </div>
+
+    <!-- Loading -->
+    <div class="loader" id="loader" hidden>
+      <div class="loader__spinner"></div>
+      <p class="loader__text">Fetching weather data...</p>
+    </div>
+
+    <!-- Error -->
+    <div class="error-card" id="errorCard" hidden>
+      <svg class="error-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10" />
+        <line x1="12" y1="8" x2="12" y2="12" />
+        <line x1="12" y1="16" x2="12.01" y2="16" />
+      </svg>
+      <p class="error-card__message" id="errorMessage">Something went wrong.</p>
+      <button class="error-card__retry" id="retryBtn">Try Again</button>
+    </div>
+
+    <!-- Weather Card -->
+    <div class="weather" id="weatherCard" hidden>
+      <div class="weather__main">
+        <img class="weather__icon" id="weatherIcon" src="" alt="Weather icon">
+        <div class="weather__temp-wrap">
+          <span class="weather__temp" id="weatherTemp">--</span>
+          <span class="weather__unit" id="weatherUnit">°C</span>
+        </div>
+        <p class="weather__desc" id="weatherDesc">--</p>
+      </div>
+
+      <div class="weather__location">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round">
+          <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
+          <circle cx="12" cy="10" r="3" />
+        </svg>
+        <span id="weatherLocation">--</span>
+      </div>
+
+      <!-- Sunrise / Sunset -->
+      <div class="sun-info" id="sunInfo">
+        <div class="sun-info__item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <path d="M12 2v4" />
+            <path d="m4.93 4.93 2.83 2.83" />
+            <path d="M2 12h4" />
+            <path d="m4.93 19.07 2.83-2.83" />
+            <path d="M12 18v4" />
+            <path d="m16.24 16.24 2.83 2.83" />
+            <path d="M18 12h4" />
+            <path d="m16.24 7.76 2.83-2.83" />
+          </svg>
+          <div class="sun-info__text">
+            <span class="sun-info__label">Sunrise</span>
+            <span class="sun-info__value" id="sunrise">--:--</span>
+          </div>
+        </div>
+        <div class="sun-info__divider"></div>
+        <div class="sun-info__item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <path d="M12 10V2" />
+            <path d="m4.93 10.93 2.83-2.83" />
+            <path d="M2 18h4" />
+            <path d="M20 18h4" />
+            <path d="m19.07 10.93-2.83-2.83" />
+            <path d="M22 22H2" />
+            <path d="m8 6 4 4 4-4" />
+          </svg>
+          <div class="sun-info__text">
+            <span class="sun-info__label">Sunset</span>
+            <span class="sun-info__value" id="sunset">--:--</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Details grid -->
+      <div class="weather__details">
+        <div class="weather__detail">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <path
+              d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z" />
+          </svg>
+          <div class="weather__detail-info">
+            <span class="weather__detail-value" id="humidity">--</span>
+            <span class="weather__detail-label">Humidity</span>
+          </div>
+        </div>
+        <div class="weather__detail">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <path d="M17.7 7.7a2.5 2.5 0 1 1 1.8 4.3H2" />
+            <path d="M9.6 4.6A2 2 0 1 1 11 8H2" />
+            <path d="M12.6 19.4A2 2 0 1 0 14 16H2" />
+          </svg>
+          <div class="weather__detail-info">
+            <span class="weather__detail-value" id="windSpeed">--</span>
+            <span class="weather__detail-label">Wind Speed</span>
+          </div>
+        </div>
+        <div class="weather__detail">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <path d="M14 4v10.54a4 4 0 1 1-4 0V4a2 2 0 0 1 4 0Z" />
+          </svg>
+          <div class="weather__detail-info">
+            <span class="weather__detail-value" id="feelsLike">--</span>
+            <span class="weather__detail-label">Feels Like</span>
+          </div>
+        </div>
+        <div class="weather__detail">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <line x1="12" y1="2" x2="12" y2="6" />
+            <line x1="12" y1="18" x2="12" y2="22" />
+            <line x1="4.93" y1="4.93" x2="7.76" y2="7.76" />
+            <line x1="16.24" y1="16.24" x2="19.07" y2="19.07" />
+            <line x1="2" y1="12" x2="6" y2="12" />
+            <line x1="18" y1="12" x2="22" y2="12" />
+            <line x1="4.93" y1="19.07" x2="7.76" y2="16.24" />
+            <line x1="16.24" y1="7.76" x2="19.07" y2="4.93" />
+          </svg>
+          <div class="weather__detail-info">
+            <span class="weather__detail-value" id="pressure">--</span>
+            <span class="weather__detail-label">Pressure</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Air Quality -->
+      <div class="aqi" id="aqiSection" hidden>
+        <div class="aqi__header">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <path d="M8 2h8" />
+            <path d="M12 14v-4" />
+            <circle cx="12" cy="14" r="8" />
+          </svg>
+          <span class="aqi__title">Air Quality</span>
+          <span class="aqi__badge" id="aqiBadge">--</span>
+        </div>
+        <div class="aqi__bar-wrap">
+          <div class="aqi__bar" id="aqiBar"></div>
+        </div>
+        <div class="aqi__details" id="aqiDetails"></div>
+      </div>
+
+      <p class="weather__updated" id="weatherUpdated"></p>
+
+      <!-- Auto refresh indicator -->
+      <div class="auto-refresh" id="autoRefresh">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round">
+          <path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8" />
+          <path d="M21 3v5h-5" />
+        </svg>
+        <span>Auto-refresh in <strong id="refreshCountdown">10:00</strong></span>
+      </div>
+    </div>
+
+    <!-- Hourly Forecast -->
+    <div class="hourly" id="hourlySection" hidden>
+      <h2 class="section-title">Hourly Forecast</h2>
+      <div class="hourly__list" id="hourlyList"></div>
+    </div>
+
+    <!-- 5-Day Forecast -->
+    <div class="forecast" id="forecastSection" hidden>
+      <h2 class="section-title">5-Day Forecast</h2>
+      <div class="forecast__list" id="forecastList"></div>
+    </div>
+
+    <!-- Search History -->
+    <div class="history" id="historySection">
+      <div class="history__header">
+        <h2 class="section-title">Recent Searches</h2>
+        <button class="history__clear" id="clearHistory" type="button">Clear</button>
+      </div>
+      <div class="history__list" id="historyList">
+        <p class="history__empty">No recent searches</p>
+      </div>
+    </div>
+
+    <!-- Idle state -->
+    <div class="idle" id="idleState">
+      <svg class="idle__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+        stroke-linecap="round" stroke-linejoin="round">
+        <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z" />
+      </svg>
+      <p class="idle__text">Search a city to get started</p>
+    </div>
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+
+</html>
